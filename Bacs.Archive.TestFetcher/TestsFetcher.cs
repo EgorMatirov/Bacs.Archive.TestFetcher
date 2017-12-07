@@ -2,11 +2,18 @@
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using Bacs.Archive.Client.CSharp;
 
 namespace Bacs.Archive.TestFetcher
 {
     public class TestsFetcher : ITestsFetcher
     {
+        public IEnumerable<Test> FetchTests(IArchiveClient archiveClient, string problemId, params string[] testId)
+        {
+            var problemPackage = archiveClient.Download(SevenZipArchive.ZipFormat, problemId);
+            return FetchTests(problemPackage, problemId, testId);
+        }
+        
         public IEnumerable<Test> FetchTests(IEnumerable<byte> problemArchive, string problemId, params string[] testsId)
         {
             var stream = new MemoryStream(problemArchive.ToArray());
