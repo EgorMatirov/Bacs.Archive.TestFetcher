@@ -7,5 +7,6 @@ namespace Bacs.Archive.TestFetcher
     {
         IEnumerable<Test> FetchTests(IEnumerable<byte> problemArchive, string problemId, params string[] testsId);
         IEnumerable<Test> FetchTests(IArchiveClient archiveClient, string problemId, params string[] testId);
+        IEnumerable<Test> FetchTests(IArchiveClient archiveClient, string problemId);
     }
 }

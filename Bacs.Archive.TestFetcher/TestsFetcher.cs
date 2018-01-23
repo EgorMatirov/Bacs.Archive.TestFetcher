@@ -3,6 +3,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using Bacs.Archive.Client.CSharp;
+using Bacs.Problem.Single;
 
 namespace Bacs.Archive.TestFetcher
 {
@@ -13,7 +14,20 @@ namespace Bacs.Archive.TestFetcher
             var problemPackage = archiveClient.Download(SevenZipArchive.ZipFormat, problemId);
             return FetchTests(problemPackage, problemId, testId);
         }
-        
+
+        public IEnumerable<Test> FetchTests(IArchiveClient archiveClient, string problemId)
+        {
+            var importResultProblem = archiveClient.ImportResult(problemId)[problemId].Problem;
+
+            var extensionValue = importResultProblem.Profile.First().Extension.Value;
+            var testGroups = ProfileExtension.Parser.ParseFrom(extensionValue).TestGroup;
+            var tests = testGroups
+                .SelectMany(x => x.Tests.Query.Select(y => y.Id))
+                .ToArray();
+
+            return FetchTests(archiveClient, problemId, tests);
+        }
+
         public IEnumerable<Test> FetchTests(IEnumerable<byte> problemArchive, string problemId, params string[] testsId)
         {
             var stream = new MemoryStream(problemArchive.ToArray());

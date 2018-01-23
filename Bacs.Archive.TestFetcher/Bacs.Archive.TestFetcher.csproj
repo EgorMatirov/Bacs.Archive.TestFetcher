@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>Bacs.Archive.TestFetcher</PackageId>
-    <PackageVersion>0.1.1</PackageVersion>
+    <PackageVersion>0.2.0</PackageVersion>
     <Authors>Mikhail Ivchenko</Authors>
     <Description>Test fetcher for BACS</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
